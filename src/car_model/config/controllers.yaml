@@ -1,0 +1,40 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    # 关节状态广播器
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # 手臂控制器
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # 修改这里：把夹爪也改成轨迹控制器，超级稳定
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# 手臂参数
+arm_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+# 修改这里：夹爪参数格式变得和手臂一样了
+gripper_controller:
+  ros__parameters:
+    joints:
+      - paw1_joint
+      - paw2_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
