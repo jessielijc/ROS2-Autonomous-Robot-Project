@@ -25,7 +25,7 @@ This project demonstrated significant problem-solving in robotics software engin
 - **Modeling**: SolidWorks to URDF
 
 ## 📺 Demo
-**to be released
+**to be released**
 
 ## 🏃 Quick Start
 1. **Launch Environment**:
