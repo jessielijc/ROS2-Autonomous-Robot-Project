@@ -1,36 +1,111 @@
-# ROS 2 Autonomous Multimodal Mobile Manipulator
+# Integrated ROS 2 Mobile Manipulator: A Multimodal Control Tutorial
 
-This project features a fully integrated autonomous robot system developed using **ROS 2 Humble**. It coordinates a custom differential-drive mobile base with a 3-DOF robotic arm to perform vision-guided grasping tasks, driven by multimodal Human-Robot Interaction (HRI).
+This repository provides a complete framework for an autonomous **Mobile Manipulator** (3-DOF arm + differential drive base) using **ROS 2 Humble**. 
 
-##  Key Technical Highlights
-- **Autonomous Navigation Stack**: Utilized `SLAM Toolbox` for high-fidelity mapping and `Nav2` (AMCL) for robust localization and path planning.
-- **Vision-Guided Manipulation**: Integrated `OpenCV` color segmentation for object detection and `MoveIt 2` (with KDL Kinematics Solver) for collision-free trajectory planning.
-- **Multimodal HRI Interface**:
-  - **Gesture Control**: Leveraged `Google MediaPipe` to translate hand skeletal data into chassis movement and task triggers (supporting logic for specific gestures 1, 2, and 3).
-  - **Voice Control**: Integrated `Vosk` offline speech recognition for Chinese voice command processing.
-- **Simulation Optimization**: Developed a high-fidelity Gazebo environment with customized physics parameters and custom world layouts.
+The system integrates **SLAM**, **Nav2**, **MoveIt 2**, **OpenCV**, and **Human-Robot Interaction (HRI)** via voice and gesture.
 
-##  Engineering Challenges & Solutions (Debug Log)
-This project demonstrated significant problem-solving in robotics software engineering:
-- **Kinematic Stability**: Resolved a chassis suspension issue caused by incorrect caster wheel dimensions in URDF.
-- **TF Frame Alignment**: Fixed a 180-degree navigation mirroring error by recalibrating the `base_link` and Lidar coordinate frames.
-- **Controller Synchronization**: Resolved real-time node conflicts between `MoveIt` virtual states and `ros2_control` hardware interfaces by configuring a unified state broadcaster.
-- **Physics Simulation Fidelity**: Overcame ODE friction limitations in Gazebo by implementing a `libgazebo_ros_vacuum_gripper` plugin to ensure stable grasping.
+---
 
-##  System Architecture
-- **Middleware**: ROS 2 Humble
-- **Simulation**: Gazebo 11 (Classic)
-- **Planning**: MoveIt 2, Nav2
-- **Interaction**: MediaPipe, Vosk, OpenCV
-- **Modeling**: SolidWorks to URDF
+## 🛠 Hardware Architecture
+The robot features a custom-designed chassis:
+*   **Locomotion**: Differential drive (2 rear driving wheels + 1 front caster).
+*   **Manipulation**: 3-Degree-of-Freedom (DOF) robotic arm.
+*   **Sensors**: 2D LiDAR, Depth Camera, and Microphone.
 
-##  Demo
-**to be released**
+---
 
-##  Quick Start
-1. **Launch Environment**:
-   `ros2 launch car_model_moveit_config demo_gazebo.launch.py`
-2. **Start Navigation**:
-   `ros2 launch car_model navigation.launch.py`
-3. **Run Integrated Mission**:
-   `ros2 launch car_model gesture_mission.launch.py`
+## 📦 Prerequisites & Installation
+Ensure you have ROS 2 Humble and Gazebo 11 installed.
+
+```bash
+# Install core dependencies
+sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup \
+                 ros-humble-moveit ros-humble-slam-toolbox \
+                 ros-humble-cv-bridge python3-pip
+# Install HRI libraries
+pip install mediapipe vosk pyaudio
+```
+
+---
+
+## 🗺 Tutorial 1: Autonomous Navigation (SLAM & Nav2)
+Learn how to make the robot perceive its environment and move autonomously.
+
+### 1.1 SLAM Mapping
+Launch the SLAM Toolbox to create a 2D occupancy grid map.
+1. Run `ros2 launch car_model start_slam.launch.py`
+2. Use the keyboard to drive the robot around.
+3. Save the map: `ros2 run nav2_map_server map_saver_cli -f my_map`
+
+> **[GIF Placeholder: Robot scanning the room in RViz]**
+> <!-- <img src="docs/gifs/slam_demo.gif" width="600"/> -->
+
+### 1.2 Navigation & Initialization
+Once the map is ready, use Nav2 for path planning.
+1. Run `ros2 launch car_model navigation.launch.py`
+2. **Crucial**: Use the "2D Pose Estimate" tool in RViz to align the LiDAR scan with the map.
+3. Set a "Nav2 Goal" to watch the robot navigate avoiding obstacles.
+
+---
+
+## 🦾 Tutorial 2: Vision-Guided Grasping (MoveIt 2 & OpenCV)
+Learn how to combine computer vision with motion planning to pick up objects.
+
+### 2.1 Object Detection
+The robot uses `OpenCV` to detect specific color blocks (red by default) and publishes target coordinates.
+1. The `vision_detector_auto.py` node handles color segmentation and proximity calculation.
+
+### 2.2 Grasping Execution
+`MoveIt 2` handles the Inverse Kinematics (IK) and collision avoidance.
+1. The `arm_driver.cpp` script executes a synchronized sequence: `Approach -> Open -> Ready -> Vacuum Enable -> Close -> Home`.
+
+> **[GIF Placeholder: Robot arm detecting and picking up a red block]**
+> <!-- <img src="docs/gifs/grasping_demo.gif" width="600"/> -->
+
+---
+
+## 🖐 Tutorial 3: Multimodal HRI (Gesture & Voice)
+Control your robot using intuitive human commands.
+
+### 3.1 Hand Gesture Control (MediaPipe)
+The system tracks 21 hand landmarks to trigger different tasks:
+*   **Fist (0)**: Manual Teleop mode (Move hand outside the center box to drive).
+*   **Digit 1**: Trigger Navigation to Point A.
+*   **Digit 2**: Trigger Autonomous Search & Grasp mission.
+*   **Digit 3**: Trigger Navigation back to Home.
+
+> **[GIF Placeholder: Switching modes using hand gestures with the progress bar]**
+> <!-- <img src="docs/gifs/gesture_ui_demo.gif" width="600"/> -->
+
+### 3.2 Voice Command (Vosk)
+Supports offline Chinese/English voice commands like "Forward", "Grasp", or "Navigate" to trigger the state machine.
+
+---
+
+## 🌍 Tutorial 4: Creating Custom 3D Worlds in Gazebo
+To build your own testing environment:
+1. Open Gazebo: `gazebo`
+2. Go to **Edit -> Building Editor** (Ctrl+B).
+3. Draw walls, add windows/doors, and save it as a `model`.
+4. Insert your building into a new world and save as `.world` in the `worlds/` folder.
+5. Update the `world_file` path in your launch scripts.
+
+---
+
+## 🚀 Engineering Challenges Solved (Debug Log)
+This project serves as a showcase of problem-solving in robotics:
+*   **Fixed Joint Lumping**: Prevented Gazebo from merging the `grasp_link` into the arm, ensuring the vacuum plugin could find the link.
+*   **TF Mirroring**: Corrected a 180-degree navigation error by re-aligning the `base_link` X-axis and LiDAR data start-angle.
+*   **Multi-Threaded UI**: Implemented `MultiThreadedExecutor` in Python to prevent OpenCV window freezes during heavy Nav2/MoveIt tasks.
+*   **Physics Tuning**: Optimized `kp/kd` contact parameters and added a `vacuum_gripper` plugin to overcome friction simulation instability.
+
+---
+
+## 🛠 Tech Stack
+*   **MiddleWare**: ROS 2 Humble
+*   **Simulation**: Gazebo 11 (Classic)
+*   **Planning**: MoveIt 2, Nav2 (Simple Commander API)
+*   **Vision**: OpenCV, MediaPipe
+*   **Voice**: Vosk (Offline)
+*   **Modeling**: SolidWorks to URDF
+
