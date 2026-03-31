@@ -67,6 +67,8 @@ A camera window will open showing your hand with a central yellow bounding box (
 1. **Manual Teleop (Make a Fist ✊)**: 
    * Keep all fingers closed. Move your fist outside the yellow box. 
    * Up = Forward, Down = Backward, Left = Turn Left, Right = Turn Right.
+![ezgif com-optimize](https://github.com/user-attachments/assets/5477dbe0-95bc-4b8a-bb79-ef781a2c6e75)
+
 2. **Navigate to Point A (Index Finger Up ☝️)**:
    * Hold up *only* your index finger.
    * A purple progress bar will appear at the bottom of the screen. **Hold the gesture still for 1 second** to confirm.
