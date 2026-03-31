@@ -47,8 +47,7 @@ When RViz opens, the robot might look "lost" (the map is gray, and the red LiDAR
 4. **Click and HOLD the left mouse button**, then **drag the cursor** in the direction the robot is facing. A green arrow will appear.
 5. **Release the mouse**. 
 6. Look at the **red dots (LaserScan)**. They should now perfectly overlap the **black lines (walls)** on the map. If they don't, repeat steps 2-5 until they match perfectly.
-
-> **[GIF Placeholder 2: Step-by-step clicking "2D Pose Estimate", dragging the green arrow, and matching the red LiDAR points with the black walls in RViz]**
+![2](https://github.com/user-attachments/assets/e1b800d1-e73f-4541-8011-f8e699462899)
 > <!-- <img src="docs/gifs/rviz_localization.gif" width="700"/> -->
 
 ### Step 3: Launch Voice Mission & Execute
