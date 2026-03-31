@@ -68,12 +68,15 @@ A camera window will open showing your hand with a central yellow bounding box (
    * Keep all fingers closed. Move your fist outside the yellow box. 
    * Up = Forward, Down = Backward, Left = Turn Left, Right = Turn Right.
 ![ezgif com-optimize](https://github.com/user-attachments/assets/5477dbe0-95bc-4b8a-bb79-ef781a2c6e75)
+> <!-- <img src="docs/gifs/rviz_localization.gif" width="700"/> -->
 
 2. **Navigate to Point A (Index Finger Up ☝️)**:
    * Hold up *only* your index finger.
    * A purple progress bar will appear at the bottom of the screen. **Hold the gesture still for 1 second** to confirm.
    * The robot will autonomously navigate to Point A.
-![Uploading ezgif2.com-optimize.gif…]()
+![ezgif2 com-optimize](https://github.com/user-attachments/assets/7277bca9-2262-4c65-9b98-2fe7a9ba6442)
+> <!-- <img src="docs/gifs/rviz_localization.gif" width="700"/> -->
+
 
 3. **Vision Grasp & Multi-Waypoint Delivery (Peace Sign ✌️)**:
    * Hold up your index and middle fingers for 1 second.
