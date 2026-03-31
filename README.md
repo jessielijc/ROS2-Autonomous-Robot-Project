@@ -82,6 +82,8 @@ A camera window will open showing your hand with a central yellow bounding box (
    * Hold up your index and middle fingers for 1 second.
    * The robot begins visual searching -> aligns with the red block -> grasps it.
    * Once grasped, the robot autonomously navigates through multiple waypoints (avoiding walls) to Point B, lowers the arm, releases the vacuum, and returns to the Home pose.
+![ezgif3 com-optimize](https://github.com/user-attachments/assets/a424cf2f-396a-4c98-9369-5544a95949d2)
+
 4. **Return Home (Three Fingers Up 🖐️[3])**:
    * Hold up 3 fingers for 1 second.
    * The robot navigates back to the map origin (0,0).
