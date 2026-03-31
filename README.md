@@ -73,6 +73,8 @@ A camera window will open showing your hand with a central yellow bounding box (
    * Hold up *only* your index finger.
    * A purple progress bar will appear at the bottom of the screen. **Hold the gesture still for 1 second** to confirm.
    * The robot will autonomously navigate to Point A.
+![Uploading ezgif2.com-optimize.gif…]()
+
 3. **Vision Grasp & Multi-Waypoint Delivery (Peace Sign ✌️)**:
    * Hold up your index and middle fingers for 1 second.
    * The robot begins visual searching -> aligns with the red block -> grasps it.
