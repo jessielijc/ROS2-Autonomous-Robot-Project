@@ -124,7 +124,7 @@ ros2 launch car_model voice_mission.launch.py
    * The Nav2 Simple Commander API sends a predefined goal coordinate to the behavior tree.
    * The robot plans a global path and autonomously drives to the destination while avoiding obstacles.
 
-> **[GIF Placeholder 4: Voice commanding the robot -> Spinning to find the red block -> Robot arm picking it up -> Driving away via Nav2]**
+
 > <!-- <img src="docs/gifs/voice_mission_full.gif" width="700"/> -->
 
 ---
